@@ -11,6 +11,8 @@ data permit issued by a Health Data Access Body (EHDS Art. 68).
 The properties `te:request` and `te:stage` are proposed extensions to the Trust
 Envelope model.
 
+Vocabulary alignment is provisional pending review.
+
 ## Licence
 
 CC BY 4.0

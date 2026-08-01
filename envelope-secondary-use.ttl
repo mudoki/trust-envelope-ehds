@@ -1,0 +1,56 @@
+# Trust Envelope instantiation for the EHDS secondary use scenario
+# Companion material for "Trusted Data Exchanges Across Regulatory Boundaries:
+# A Research Agenda for Personal Data Vault Interoperability" (IFIP Summer School 2026), Sec. 5.3.
+#
+# te:request and te:stage are PROPOSED extensions to the Trust Envelope model.
+
+@prefix ex:      <https://example.org/> .
+@prefix te:      <https://w3id.org/trust-envelope#> .
+@prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
+@prefix dpv:     <https://w3id.org/dpv#> .
+@prefix eu-gdpr: <https://w3id.org/dpv/legal/eu/gdpr#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# The envelope released to the research institution
+ex:envelope-42 a te:TrustEnvelope ;
+    te:sender         ex:vault-alice ;              # R3, disclosing party
+    te:dataSubject    ex:alice ;
+    te:rightsExercise ex:access-2026-03-11 ;        # R2, proposed
+    te:request        ex:request-88 ;               # R4, proposed
+    te:policy         ex:grant-88 ;                 # R5, granted purpose
+    te:authority      ex:permit-HDAB-2026-014 .     # EHDS Art. 68
+
+# What the institution asked for: broader than what it received
+ex:request-88 a odrl:Request ;
+    odrl:permission [
+        odrl:action  odrl:use ;
+        odrl:purpose dpv:ResearchAndDevelopment
+    ] .
+
+# What the permit actually granted
+ex:grant-88 a odrl:Agreement ;
+    odrl:permission [
+        odrl:action     odrl:use ;
+        odrl:target     ex:glucose-cohort-2026 ;
+        odrl:assigner   ex:vault-alice ;
+        odrl:assignee   ex:research-institution ;
+        odrl:purpose    ex:glycaemic-instability-algorithm ;
+        te:stage        dpv:Evaluate ;              # R5, proposed
+        odrl:constraint [
+            odrl:leftOperand  odrl:dateTime ;
+            odrl:operator     odrl:lteq ;
+            odrl:rightOperand "2027-03-11"^^xsd:date
+        ] ;
+        odrl:duty [ odrl:action te:notifyOnFurtherUse ] ,
+                  [ odrl:action te:honourRetraction ]   # R6
+    ] .
+
+# Which right of access produced the vault-held copy
+ex:access-2026-03-11 a dpv:RightExerciseActivity ;
+    dpv:hasRight eu-gdpr:A15 , ex:ehds-art-3 .
+
+# The permit itself, as issued by the Health Data Access Body
+ex:permit-HDAB-2026-014 a te:Authority ;
+    te:issuedBy    ex:hdab-be ;
+    te:legalBasis  ex:ehds-art-68 ;
+    te:validUntil  "2027-03-11"^^xsd:date .

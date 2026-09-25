@@ -17,4 +17,4 @@ Vocabulary alignment is provisional pending review.
 
 ## Licence
 
-CC BY 4.0
+CC0 1.0 Universal (see LICENSE)

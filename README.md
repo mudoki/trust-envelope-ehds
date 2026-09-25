@@ -8,8 +8,10 @@ School on Privacy and Identity Management, Leuven, 2026.
 a research institution receives glucose data from a personal data vault under a
 data permit issued by a Health Data Access Body (EHDS Art. 68).
 
-The properties `te:request` and `te:stage` are proposed extensions to the Trust
-Envelope model.
+The properties `ext:rightsExercise` (R2), `ext:request` (R4) and `ext:stage` (R5) 
+are proposed extensions to the Trust Envelope model, described in Section 5.1 of 
+the paper. `ext:Evaluation` (a stage value) and `ext:honourRetraction` 
+(a duty action) are proposed vocabulary terms. The `ext:` namespace is provisional.
 
 Vocabulary alignment is provisional pending review.
 

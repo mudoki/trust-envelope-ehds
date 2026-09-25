@@ -15,6 +15,7 @@
 @prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
 @prefix dpv:     <https://w3id.org/dpv#> .
 @prefix eu-gdpr: <https://w3id.org/dpv/legal/eu/gdpr#> .
+@prefix eu-ehds: <https://w3id.org/dpv/legal/eu/ehds#> .
 @prefix prov:    <http://www.w3.org/ns/prov#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
@@ -48,43 +49,32 @@ ex:policyProvenance-42 a te:PolicyProvenance ;
 ex:request-88 a odrl:Request ;
     odrl:uid ex:request-88 ;
     odrl:permission [
-        a               odrl:Permission ;
         odrl:assignee   ex:research-institution ;
         odrl:action     odrl:use ;
         odrl:target     ex:alice-glucose-readings ;
         odrl:constraint [
-            a                 odrl:Constraint ;
             odrl:leftOperand  odrl:purpose ;
             odrl:operator     odrl:isA ;
-            odrl:rightOperand dpv:ResearchAndDevelopment
-        ]
-    ] .
-
+            odrl:rightOperand dpv:ResearchAndDevelopment ] ] .
 
 # What was actually granted, within the HDAB permit (all constraints must hold)
 ex:grant-88 a odrl:Agreement ;
     odrl:uid ex:grant-88 ;
     odrl:permission [
-        a               odrl:Permission ;
         odrl:assigner   ex:vault-alice ;
         odrl:assignee   ex:research-institution ;
         odrl:action     odrl:use ;
         odrl:target     ex:alice-glucose-readings ;
         ext:stage       ext:Evaluation ;                 # R5, proposed
         odrl:constraint [
-            a                 odrl:Constraint ;
             odrl:leftOperand  odrl:purpose ;
             odrl:operator     odrl:eq ;
-            odrl:rightOperand ex:glycaemic-instability-algorithm
-        ] , [
-            a                 odrl:Constraint ;
+            odrl:rightOperand ex:glycaemic-instability-algorithm ] , [
             odrl:leftOperand  odrl:dateTime ;
             odrl:operator     odrl:lteq ;
-            odrl:rightOperand "2027-03-11"^^xsd:date
-        ] ;
+            odrl:rightOperand "2027-03-11"^^xsd:date ] ;
         odrl:duty [ a odrl:Duty ; odrl:action odrl:inform ] ,              # R6, notify
-                  [ a odrl:Duty ; odrl:action ext:honourRetraction ]       # R6, proposed
-    ] .
+                  [ a odrl:Duty ; odrl:action ext:honourRetraction ] ] .   # R6, proposed
 
 ex:glycaemic-instability-algorithm a dpv:Purpose ;
     skos:broader  dpv:ResearchAndDevelopment ;
@@ -94,21 +84,13 @@ ext:Evaluation a skos:Concept ;
     skos:prefLabel "Evaluation"@en ;
     rdfs:comment   "Evaluation stage of the purpose 'training, testing and evaluation of algorithms', EHDS Art. 53(1)(e)(ii)."@en .
 
-
 # Which right of access produced the vault-held copy
 ex:access-2026-03-11 a dpv:RightExerciseActivity ;
     dcterms:date  "2026-03-11"^^xsd:date ;
-    dpv:hasRight  eu-gdpr:A15 , ex:ehds-art-3 .
-
-ex:ehds-art-3 rdfs:comment "Right of access to personal electronic health data, EHDS Art. 3."@en .
+    dpv:hasRight  eu-gdpr:A15, eu-ehds:A3 .
 
 # The permit itself, as issued by the Health Data Access Body
 ex:permit-HDAB-2026-014 a prov:Entity ;
     prov:wasAttributedTo ex:hdab-be ;
     dcterms:valid        "2027-03-11"^^xsd:date ;
     rdfs:comment         "Data permit issued under EHDS Art. 68."@en .
-
-# Signatures (structure as in the spec's examples)
-ex:signedEnvelope-42         rdfs:comment "Signature by ex:vault-alice over ex:envelope-42."@en .
-ex:signedDataProvenance-42   rdfs:comment "Signature by ex:vault-alice over ex:dataProvenance-42 and the data."@en .
-ex:signedPolicyProvenance-42 rdfs:comment "Signature by ex:vault-alice over ex:policyProvenance-42 and ex:grant-88."@en .
